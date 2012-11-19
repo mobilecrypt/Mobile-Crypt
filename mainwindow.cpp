@@ -93,6 +93,11 @@ void MainWindow::changeState(const QString &_state)
         state = state_rabin_decrypt;
     }
 
+    else if(_state == "isPrime")
+    {
+        state = state_is_prime;
+    }
+
     else
     {
         state = state_inverse;
@@ -205,6 +210,14 @@ void MainWindow::changeLabels()
         ui->label_4->setText("x");
     }
 
+    else if(state == state_is_prime)
+    {
+        ui->label_1->setText("Number");
+        ui->label_2->setText("x");
+        ui->label_3->setText("x");
+        ui->label_4->setText("x");
+    }
+
 
     else
     {
@@ -285,9 +298,9 @@ bool MainWindow::calculatePocklington(int _prime, int _factor)
 bool MainWindow::PocklingtonFirstTest(int _prime, int _factor)
 {
     long long powerNumber = (long long) pow(_factor, ((_factor*_prime)/_prime));
-    long long gcd_number = gcd(powerNumber,(_prime*_factor+1));
+    long long gcd_number = gcd(powerNumber-1,(_prime*_factor+1));
 
-    print("gcd of " + QString::number(powerNumber) + " " + QString::number(_prime*_factor+1) + " is " + QString::number(gcd_number) + "\n");
+    print("gcd of " + QString::number(powerNumber-1) + " " + QString::number(_prime*_factor+1) + " is " + QString::number(gcd_number) + "\n");
 
     if(gcd_number == 1)
     {
@@ -604,6 +617,18 @@ int MainWindow::halfNumber(const int number)
     return(doubledMessage);
 }
 
+bool MainWindow::calculateIsPrime(int number)
+{
+    for(int i= 2; i < number; i++ )
+    {
+        if(number % i == 0)
+        {
+            return(false);
+        }
+    }
+    return(true);
+}
+
 
 void MainWindow::addNumber()
 {
@@ -676,6 +701,11 @@ void MainWindow::stateRotator()
     }
 
     else if(state == state_rabin_decrypt)
+    {
+        changeState("isPrime");
+    }
+
+    else if(state == state_is_prime)
     {
         changeState("inverse");
     }
@@ -764,6 +794,11 @@ void MainWindow::compute()
     {
         print("Rabin DeCrypt: " + QString::number(calculateRabinDeCrypt(ui->lineEdit_1->text().toInt(),ui->lineEdit_2->text().toInt(),ui->lineEdit_3->text().toInt())) + "\n");
     }
+    else if(state == state_is_prime)
+    {
+        print("Is Prime: " + QString::number(calculateIsPrime(ui->lineEdit_1->text().toInt())) + "\n");
+    }
+
 
 }
 

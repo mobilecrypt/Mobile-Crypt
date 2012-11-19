@@ -24,7 +24,8 @@ class MainWindow : public QMainWindow
         state_order = 8,
         state_primitiv = 9,
         state_rabin_crypt = 10,
-        state_rabin_decrypt = 11
+        state_rabin_decrypt = 11,
+        state_is_prime = 12
     } states;
 
     Q_OBJECT
@@ -55,6 +56,7 @@ public:
     int calculateRabinDeCrypt(int message, int p, int q);
     bool isMirrored(const int number);
     int halfNumber(const int number);
+    bool calculateIsPrime(int number);
 public slots:
     void addNumber();
     void stateRotator();
